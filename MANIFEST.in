@@ -1,4 +1,4 @@
-include README
+include DESCRIPTION README.md
 recursive-include webapp about_py/templates about_py/static
 include docs/Makefile
 recursive-include docs/source *
