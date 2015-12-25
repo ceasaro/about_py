@@ -10,6 +10,6 @@ setup(
     url='https://github.com/ceasaro/about_py',
     license='',
     description='creates an about page containing VSC information, python/python libs versions, etc.',
-    long_description=open('README.txt').read(),
+    long_description=open('DESCRIPTION').read(),
     zip_safe=False,
 )
