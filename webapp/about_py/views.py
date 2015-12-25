@@ -2,7 +2,6 @@ import logging
 import sys
 
 import collections
-import django
 from django.views.generic import TemplateView
 
 from about_py.core.vcs import get_vcs_info
