@@ -2,9 +2,11 @@ import logging
 import sys
 
 import collections
+
 from django.views.generic import TemplateView
 
 from about_py.core.vcs import get_vcs_info
+from about_py.mixins import IsStaffOrSuperUserMixin
 from utils.exceptions import AboutPyException
 
 LOG = logging.getLogger(__name__)
@@ -37,3 +39,7 @@ class AboutView(TemplateView):
         installed_packages = pip.get_installed_distributions()
         libs = {i.project_name: i.version for i in installed_packages}
         return collections.OrderedDict(sorted(libs.items(), key=lambda s: s[0].lower()))
+
+
+class SecureAboutView(IsStaffOrSuperUserMixin, AboutView):
+    pass

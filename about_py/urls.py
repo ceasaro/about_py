@@ -18,9 +18,10 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from about_py.views import AboutView
+from about_py.views import AboutView, SecureAboutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^about/', AboutView.as_view(template_name='about_py/about.html')),
+    url(r'^about/', AboutView.as_view(template_name='about_py/about.html'), name='about'),
+    url(r'^secure/about/', SecureAboutView.as_view(template_name='about_py/about.html'), name='secure_about'),
 ]
