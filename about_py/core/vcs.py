@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 from git import Repo, InvalidGitRepositoryError
 
@@ -38,9 +39,14 @@ def get_vcs_info():
 
         vcs_bunch.name = 'Git'
         vcs_bunch.origin = repo.remotes['origin']
+        origin_url = vcs_bunch.origin.url
+        if origin_url.startwith('git@'):
+            # convert the origin url to a https url
+            p = re.compile('^(git@)(?P<domain>(\w+\.)*\w+)(:)(.*)')
+            origin_url = p.sub('https://\g<2>/\g<5>', origin_url)
         vcs_bunch.last_commit = {
             'message': repo.commit().message,
-            'url': '{0}/commit/{1}'.format(vcs_bunch.origin.url, repo.commit().hexsha)
+            'url': '{0}/commit/{1}'.format(origin_url, repo.commit().hexsha),
         }
         return vcs_bunch
     except InvalidGitRepositoryError:
