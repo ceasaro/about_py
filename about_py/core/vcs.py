@@ -49,6 +49,42 @@ def get_vcs_info():
             'message': repo.commit().message,
             'url': '{0}/commit/{1}'.format(origin_url, repo.commit().hexsha),
         }
+        vcs_bunch.last_pull_requests = parse_commit_log(repo.git.log(n=5, merges=True, grep='Merge pull request'),
+                                                        vcs_bunch.origin_url)
     except Exception:
         pass
     return vcs_bunch
+
+
+def parse_commit_log(commit_log, repo_url):
+    all_commits = []
+    commit = Bunch()
+    for line in commit_log.split('\n'):
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith('commit '):
+            if not commit.is_empty():
+                all_commits.append(commit)
+            commit = Bunch()
+            commit.id = line.split(' ')[1]
+            commit.message = ''
+        elif line.startswith('Merge:'):
+            continue
+        elif line.startswith('Author:'):
+            continue
+        elif line.startswith('Date:'):
+            continue
+        elif line.startswith('Merge pull request'):
+            m = re.match('.*#(\d+).*', line)
+            commit.pull_request_id = m.groups()[0]
+            commit.pull_request_url = repo_url + '/pull/' + commit.pull_request_id
+        else:
+            commit.message += line + '\n'
+    if not commit.is_empty():
+        all_commits.append(commit)
+    return all_commits
+
+
+
+

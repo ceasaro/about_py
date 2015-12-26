@@ -27,6 +27,20 @@
             </td>
         </tr>
         <tr>
+            <td>Last pull requests</td>
+            <td>
+                {% for pull_request in vcs.last_pull_requests %}
+                    <ol>
+                        <li>
+                            <a href="{{ pull_request.pull_request_url }}">{{ pull_request.message }}</a>
+                        </li>
+                    </ol>
+                {% empty %}
+                    No pull requests found
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
             <td>Last Commit</td>
             <td>
                 <a href="{{ vcs.last_commit.url }}" target="_blank">{{ vcs.last_commit.message }}</a>
