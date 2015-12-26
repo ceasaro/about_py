@@ -2,7 +2,7 @@ import logging
 import os
 import re
 
-from git import Repo, InvalidGitRepositoryError
+from git import Repo
 
 from about_py.utils.bunch import Bunch
 from about_py.utils.exceptions import AboutPyException
@@ -32,22 +32,23 @@ def get_vcs_info():
     # rorepo is a a Repo instance pointing to the git-python repository.
     # For all you know, the first argument to Repo is a path to the repository
     # you want to work with
+    vcs_bunch = Bunch()
     try:
-        vcs_bunch = Bunch()
-        repo = Repo(locate_git())
-        assert not repo.bare
-
+        git_location = locate_git()
+        assert git_location != None
+        repo = Repo(git_location)
         vcs_bunch.name = 'Git'
-        vcs_bunch.origin = repo.remotes['origin']
-        origin_url = vcs_bunch.origin.url
+        origin = repo.remotes['origin']
+        origin_url = origin.url
         if origin_url.startswith('git@'):
             # convert the origin url to a https url
-            p = re.compile('^(git@)(?P<domain>(\w+\.)*\w+)(:)(.*)')
+            p = re.compile('^(git@)(?P<domain>(\w+\.)*\w+)(:)(.*)(.git)')
             origin_url = p.sub('https://\g<2>/\g<5>', origin_url)
+        vcs_bunch.origin_url = origin_url
         vcs_bunch.last_commit = {
             'message': repo.commit().message,
             'url': '{0}/commit/{1}'.format(origin_url, repo.commit().hexsha),
         }
-        return vcs_bunch
-    except InvalidGitRepositoryError:
-        return
+    except Exception:
+        pass
+    return vcs_bunch

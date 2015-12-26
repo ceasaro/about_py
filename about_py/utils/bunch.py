@@ -17,3 +17,6 @@ class Bunch:
         keys.sort()
         args = ', '.join(['%s=%r' % (key, self.__dict__[key]) for key in keys])
         return '%s(%s)' % (self.__class__.__name__, args)
+
+    def is_empty(self):
+        return self.__dict__ == {}
