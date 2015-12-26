@@ -40,7 +40,7 @@ def get_vcs_info():
         vcs_bunch.name = 'Git'
         vcs_bunch.origin = repo.remotes['origin']
         origin_url = vcs_bunch.origin.url
-        if origin_url.startwith('git@'):
+        if origin_url.startswith('git@'):
             # convert the origin url to a https url
             p = re.compile('^(git@)(?P<domain>(\w+\.)*\w+)(:)(.*)')
             origin_url = p.sub('https://\g<2>/\g<5>', origin_url)
