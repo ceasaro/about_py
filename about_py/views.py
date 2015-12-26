@@ -11,7 +11,7 @@ LOG = logging.getLogger(__name__)
 
 
 class AboutView(TemplateView):
-    template_name = 'about.html'
+    template_name = 'about_py/about.html'
 
     def get_context_data(self, **kwargs):
         context_data = super(AboutView, self).get_context_data(**kwargs)

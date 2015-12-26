@@ -22,5 +22,5 @@ from about_py.views import AboutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^about/', AboutView.as_view()),
+    url(r'^about/', AboutView.as_view(template_name='about_py/about.html')),
 ]
