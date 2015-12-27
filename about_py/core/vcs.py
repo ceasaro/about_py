@@ -76,7 +76,8 @@ def parse_commit_log(commit_log, repo_url):
         elif line.startswith('Author:'):
             continue
         elif line.startswith('Date:'):
-            commit.date = datetime.strptime('Wed Dec 23 19:31:47 2015 +0100'.split('+')[0].strip(), '%a %b %d %H:%M:%S %Y')
+            date_str = line.replace('Date:', '').strip()
+            commit.date = datetime.strptime(date_str.split('+')[0].strip(), '%a %b %d %H:%M:%S %Y')
         elif line.startswith('Merge pull request'):
             m = re.match('.*#(\d+).*', line)
             commit.pull_request_id = m.groups()[0]
