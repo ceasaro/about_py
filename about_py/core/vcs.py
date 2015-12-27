@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+from datetime import datetime
 
 from git import Repo
 
@@ -47,6 +48,7 @@ def get_vcs_info():
         vcs_bunch.origin_url = origin_url
         vcs_bunch.last_commit = {
             'message': repo.commit().message,
+            'date': datetime.fromtimestamp(repo.commit().committed_date),
             'url': '{0}/commit/{1}'.format(origin_url, repo.commit().hexsha),
         }
         vcs_bunch.last_pull_requests = parse_commit_log(repo.git.log(n=5, merges=True, grep='Merge pull request'),
@@ -74,7 +76,7 @@ def parse_commit_log(commit_log, repo_url):
         elif line.startswith('Author:'):
             continue
         elif line.startswith('Date:'):
-            commit.date = line.replace('Date:', '').strip()
+            commit.date = datetime.strptime('Wed Dec 23 19:31:47 2015 +0100'.split('+')[0].strip(), '%a %b %d %H:%M:%S %Y')
         elif line.startswith('Merge pull request'):
             m = re.match('.*#(\d+).*', line)
             commit.pull_request_id = m.groups()[0]

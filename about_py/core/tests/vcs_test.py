@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from git import Repo
 
 from about_py.core import vcs
@@ -48,7 +50,7 @@ def test_parse_commit_log():
     assert commits[0].pull_request_url == 'http://example.com/pull/2507'
     assert commits[0].id == '0ce74ff82b840fae6af64593ca1e6ef67982a53a'
     assert commits[0].message == 'Django 1 7 v2\n'
-    assert commits[0].date == 'Wed Dec 23 19:31:47 2015 +0100'
+    assert commits[0].date == datetime(year=2015, month=12, day=23, hour=19, minute=31, second=47)
     assert commits[2].pull_request_id == '2500'
     assert commits[2].id == 'e39636217110ba0d79417c0d570dd953be68ea87'
     assert commits[2].message == 'melding weergeven als er geen gewaspercelen zijn\n'
