@@ -43,7 +43,7 @@
                     <ol>
                         {% for pull_request in vcs.last_pull_requests %}
                             <li>
-                                <a href="{{ pull_request.pull_request_url }}">{{ pull_request.message }}</a>
+                                <a href="{{ pull_request.pull_request_url }}" target="_blank">{{ pull_request.message }}</a>
                                 <div class="small_date">{{ pull_request.date|date:"D d M Y  G:i" }}</div>
                             </li>
                         {% empty %}
