@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 
 from about_py.core.vcs import get_vcs_info
 from about_py.mixins import IsStaffOrSuperUserMixin
-from utils.exceptions import AboutPyException
+from .utils.exceptions import AboutPyException
 
 LOG = logging.getLogger(__name__)
 
